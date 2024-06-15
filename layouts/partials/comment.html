@@ -1,0 +1,4 @@
+<!-- 网站配置文件开启valine 且 本片文章Comment参数支持评论 -->
+{{ if and .Site.Params.Comment.Enable .Params.comments }}
+  <div id="waline"></div>
+{{ end }}

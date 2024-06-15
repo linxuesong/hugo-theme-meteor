@@ -1,0 +1,40 @@
+<!-- 所有分类展示统计时展示一个分类块 -->
+{{ $colorArr := slice "#F9EBEA" "#F5EEF8" "#D5F5E3" "#E8F8F5" "#FEF9E7" "#F8F9F9" "#82E0AA" "#D7BDE2" "#A3E4D7" "#85C1E9" "#F8C471" "#F9E79F" "#FFF" }}
+{{ $colorCount := len $colorArr }}
+<!-- 页面类型 -->
+{{ $isPage := false }}
+{{ $isTerm := false }}
+{{ $isTaxonomy := false }}
+{{ if eq .Kind "page"}}
+    {{ $isPage = true }}
+{{ else if eq .Kind "term" }}
+    {{ $isTerm = true}}
+{{else if eq .Kind "taxonomy" }}
+    {{$isTaxonomy = true}}
+{{ end}}
+
+
+                <div class="tag-chips">
+                    {{ if gt (len .Site.Taxonomies.categories) 0 }}
+                        <!-- 变量结构层级是 Taxonomies  Taxonominy_term  taxonomy  -->
+                        <!-- Taxonomies包括categories、tags 包括Get(Term)、Count(Term）等方法-->
+                        <!-- Taxonominy_term指具体categories 包括-->
+                        <!-- taxonomy指具体分类下的某一类 包括.Pages -->
+                        {{ $index := 0 }}
+                        {{ range $category_name, $category := .Site.Taxonomies.categories }}
+                        {{ $colorIndex := (mod $index $colorCount) }}
+                        {{ $color := index $colorArr $colorIndex }}
+                        <a href="{{ .Page.Permalink }}" title="{{ .Page.Title }}: {{ .Count }}">
+                            <!-- 如果当前查看的文章所在分类是否为遍历对应分类，则分类云块显示为激活chip-active颜色，用于在查看一篇文章后面展示使用 -->
+                            <span class="chip center-align waves-effect waves-light chip-default"
+                                style="background-color: {{ $color }};"> 
+                                {{ .Page.Title }}
+                                <span class="tag-length">{{ .Count }}</span>
+                            </span>
+                        </a>
+                            {{ $index = add $index 1 }}
+                        {{ end }}
+                    {{ else }}
+                        本站文章还没有一个分类
+                    {{ end }}
+                </div>

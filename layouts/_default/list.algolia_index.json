@@ -1,0 +1,14 @@
+[
+    {{- range $index, $entry := .Site.RegularPages }}
+    {{- if $index }}, {{ end }}
+    {
+      "objectID": {{ .Date.Unix }},
+      "url": {{ .Permalink | jsonify }},
+      "title": {{ .Title | jsonify }},
+      "summary": {{ .Summary | jsonify }},
+      "content": {{ .Plain | jsonify }},
+      "pubDate": {{ .PublishDate | jsonify }}
+      "descrip": {{ .Description | jsonify }}
+    }
+    {{- end }}
+  ]

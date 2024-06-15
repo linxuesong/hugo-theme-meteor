@@ -1,0 +1,140 @@
+<head>
+     {{ .Site.Params.headertop.bgurl }}
+     <meta charset="utf-8">
+     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+     <!-- 设置网页标题开始  -->
+     <title>{{ if .Title }}{{ .Title }}{{ else }}粗心的主人啊，为什么忘记设置我的名字{{ end }}</title>
+     <!-- 设置网页标题结束 -->
+     <!-- 百度收录 由于github拒绝百度脚本访问，所以失效  -->
+     {{ if .Site.Params.inclusion.baiduEnable}}
+       <meta name="baidu-site-verification" content="{{ .Site.Params.inclusion.baiduContent}}" />
+     {{end}}
+     <!-- 百度收录end  -->
+     <!-- google收录 -->
+     {{ if .Site.Params.inclusion.googleEnable}}
+       <meta name="google-site-verification" content="{{ .Site.Params.inclusion.googleContent}}" />
+     {{ end }}
+     <!-- google收录end  -->
+
+     <!-- 没有搞清用处此处和主题逻辑不一致，之后研究 -->
+     <title itemprop="name">
+        {{ .Site.Params.homepage.prefixName}}
+        {{ .Site.Params.homepage.middleName}}
+    </title>
+     <!-- 设置网页标题图标 待实现-->
+     <!-- <% if (theme.favicon){Poi %>
+          <link rel="shortcut icon" href="<%- theme.favicon %>">
+        <% } %> -->
+     <!-- 设置网页标题图标 end-->
+
+     <!--导入对应css资源begin-->
+     <!--dns开启预解析 前端性能优化-->
+     <meta http-equiv="x-dns-prefetch-control" content="on">
+     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+     <!-- Google的在线字体方案：Google Fonts. -->
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+     <!-- 主题自定义样式 -->
+     <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+     <!--配合插件使用的css 包含图标动画效果等-->
+     <link rel="stylesheet" href="/css/lib.min.css" media="all">
+     <link rel="stylesheet" href="/css/font.css" media="all">
+     <!-- 搜索框insightSearch样式支持 -->
+     <link rel="stylesheet" href="/css/insight.css" media="all">
+     <!-- fancyBox是一个JavaScript库，它以优雅的方式展示图片，视频和一些html内容。它包含你所期望的一切特性—支持手势，响应式和高度自定义。 -->
+     <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+     <!-- 浏览器缩放效果 zoom属性是IE浏览器的专有属性 Firefox等其它浏览器不支持。它可以设置或检索对象的缩放比例 -->
+     <link rel="stylesheet" href="/css/zoom.css" media="all">
+     <!-- 标签云统计样式用于partial/widegets/tag/tag-post-card2.html -->
+     <link rel="stylesheet" href="/css/tagcloud.css" media="all">
+     <!--TODO-->
+     <!-- 分享样式 目前功能未知 且对应css中有houjun的资源文件 之后需要移除 -->
+     <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+
+      <!-- algolia搜索栏样式2个 -->
+      <link rel="stylesheet" type="text/css" href="/css/search/algolia.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+      <!-- waline样式 -->
+      <link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css"/>
+     <!--导入对应css资源end-->
+     <script>
+      /*Initial Variables*/
+      var mashiro_option = new Object();
+      var mashiro_global = new Object(); // 包括加载主页背景图片、文章图片等功能 在sakura.app.js中
+      mashiro_option.NProgressON = true;
+      var copy_right = new Object(); //  mashiro_option的子对象存储转载著名信息
+      copy_right.enable = {{ .Site.Params.copyright.enable }};
+      copy_right.minCharNumber = {{ .Site.Params.copyright.minCharNumber }}; //至少复制多少个字符就追加版权信息.
+      copy_right.description = {{ .Site.Params.copyright.description }};
+
+      var search = new Object();
+      var algolia = new Object();
+      algolia.enable = "{{ .Site.Params.search.algolia.enable }}";
+      algolia.appId = "{{ .Site.Params.search.algolia.appId }}";
+      algolia.indexName = "{{ .Site.Params.search.algolia.indexName }}";
+      algolia.apiKey = "{{ .Site.Params.search.algolia.apiKey }}";
+      algolia.perPage = {{ .Site.Params.search.algolia.perPage }};
+      algolia.placeholder = {{ .Site.Params.search.algolia.placeholder }};
+      
+      search.algolia = algolia;
+
+
+      /* 
+       * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+       * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+       */
+      mashiro_option.search = search;
+      mashiro_option.copy_right = copy_right;
+      mashiro_option.email_domain = "";
+      mashiro_option.email_name = "";
+      mashiro_option.cookie_version_control = "";
+      mashiro_option.qzone_autocomplete = false;
+      mashiro_option.site_name = "{{ .Site.Params.homepage.prefixName }}{{ .Site.Params.homepage.middleName }}";
+      mashiro_option.author_name = "{{ .Site.Author.name }}";
+      mashiro_option.site_url = "{{ .Site.BaseURL }}";
+      mashiro_option.v_appId = "<%= theme.v_appId %>";
+      mashiro_option.v_appKey = "<%= theme.v_appKey %>";
+      mashiro_option.mathjax = "<%= theme.mathjax %>";
+      mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+      mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+    
+      // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+      // mashiro_option.float_player_on = true;
+    
+      /*End of Initial Variables*/
+    </script>
+
+     <!-- 指定js中的bg变量用于主页顶部轮播背景图片设置,headertop中的<figure id="centerbg">由sakura-app.js设置style backgroudimg-->
+     <script type="text/javascript">
+          var bg = {{- delimit .Site.Params.headertop.bgurls "," -}}.split(",");
+          var bgindex = Math.floor(Math.random()*bg.length);
+          if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+              alert('朋友，IE浏览器未适配哦~');
+          }
+     </script>
+
+  <!-- !重要 导航栏的一些额外设置,包括导航栏居中等展示 -->
+  <style type="text/css">
+    .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+  
+  <!--百度访问数据统计-->
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?d67a00154871861401ec8c26b0bdaf5d";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.min.css" media="defer" onload="this.media='all'">
+  <script async src="https://cdn.jsdelivr.net/npm/hexo-butterfly-tag-plugins-plus@latest/lib/carousel-touch.min.js"></script>
+  <!-- hexo injector head_end end -->
+  <meta name="generator" content="Hexo 5.4.0">
+  <link rel="alternate" href="/atom.xml" title="楓の葉小窝" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+</head>
+

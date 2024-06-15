@@ -1,0 +1,55 @@
+{{ define "main" }}
+  <!-- partialCached表示模版不需要每次重新渲染 -->
+  <!-- 社交图标、首页视频 -->
+  {{- partialCached "headertop.html" . -}}
+
+  <div class="blank" style="padding-top: 0px;"></div>
+  <div id="content" class="site-content">
+    <!--博客公告-->
+    <!--使用主题配置文件notice参数-->
+    {{ if .Site.Params.Notice.Enable }}
+      <div class="notice" style="margin-top:60px">
+        <i class="iconfont icon-notification"></i>
+        <div class="notice-content"> {{ .Site.Params.Notice.Content }}</div>
+      </div>
+    {{end}}
+    <!-- 快速开始启动 -->
+    {{- partial "widgets/startdash.html" . -}}
+    
+    <div id="primary" class="content-area">
+      <!-- 文章展示提示信息 -->
+      <main id="main" class="site-main" role="main">
+        <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
+          <i class="fa fa-envira" aria-hidden="true"></i>
+          Discovery
+        </h1>
+
+        <!-- 文章发布日历 -->
+        {{- partial "widgets/archive.html" . -}}
+
+        <!-- 首页默认获取最新文章集 -->
+        <!-- 声明所有文章分页器https://gohugo.io/templates/pagination/ -->
+        {{ $paginator := .Paginate (.Site.RegularPages) }}
+        <!-- indexofpage文章在当前分页的位置 indexofpages文章在所有文章的位置 用于文章卡片图片的左右交替-->
+        {{ range $indexofpage, $page := $paginator.Pages }}
+          {{ $indexofpages := (add (mul $paginator.PageSize $paginator.PageNumber) ($indexofpage)) }} 
+          {{ partial "widgets/post/post-card.html" (dict "index" $indexofpages "page" $page) }}
+        {{ end }}
+      </main>
+    </div>
+    <!-- 加载更多文章按钮 -->
+    <!-- 具体每次点击更新paginator的a的href逻辑在sakura.app.js 13128行里 -->
+    <!-- 分页页码大于1且有下一个分页 -->
+    {{ if and (gt $paginator.TotalPages 1) ($paginator.HasNext) }}
+      <div id="pagination">
+        <a href="{{ ($paginator.Next.URL) }}" class="">
+          Previous
+        </a>
+      </div>
+    {{ else }}
+      <div id="pagination">
+        很高兴你翻到这里，但是真的没有了...
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

@@ -1,0 +1,58 @@
+<!--菜单导航栏左侧站名展示-->
+<header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding"> 
+      <span class="site-title"> 
+        <span class="logolink moe-mashiro"> 
+          <a href="{{ .Site.Params.BaseURL }}" alt="{{ .Site.Params.homepage.siteNameRemark }}">
+            <ruby>
+              <span class="sakuraso">{{ .Site.Params.homepage.prefixName }}</span>
+              <span class="no">の</span>
+              <span class="shironeko">{{ .Site.Params.homepage.middleName }}</span>
+              <rp></rp>
+              <rt class="chinese-font">{{ .Site.Params.homepage.siteNameRemark }}</rt>
+              <rp></rp>
+            </ruby> 
+          </a> 
+        </span> 
+      </span>
+    </div>
+
+
+ <!-- 搜索框 -->
+  {{ partial "widgets/search/algolia.html" . }}
+
+
+    <!--导航栏--> 
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            {{ range .Site.Menus.main }}
+              <li>
+                <a href="{{ .URL }}">
+                  <span class="faa-parent animated-hover">
+                    {{ .Pre }}
+                    {{ .Name }}
+                  </span>
+                </a>
+                {{ if .HasChildren }}
+                  <ul class="sub-menu">
+                    {{ range .Children }}
+                      <li>
+                        <a href="{{ .URL }}">
+                          {{ .Pre }}
+                          {{ .Name }}
+                        </a>
+                      </li>
+                    {{ end }}
+                  </ul>
+                {{ end }}
+              </li>
+            {{ end }}    
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>

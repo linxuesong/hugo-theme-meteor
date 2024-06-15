@@ -1,0 +1,207 @@
+{{ define "main" }}
+<!--整体结构BEGIN-->
+<!--0   正文之前-->
+<!--head-->
+<!--body header-->
+<!---->
+<!--1   正文-->
+<!--1.1文章图片-->
+<!-- footer-->
+<!--整体结构END-->
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+  <div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 配图渲染 -->
+    <img class="pattern-attachment-img lazyload" style="background-image: url({{ .Params.images }});" src="{{ $.Site.Params.lazyloadImg }}"
+      data-src="
+      {{- with .Params.image -}}
+        {{- . -}}
+      {{- else -}}
+        {{- .Site.Params.postpage.defaultPostImg -}}
+      {{- end -}}">
+    </img>
+
+    <header class="pattern-header single-header">
+        <h1 class="entry-title">{{ .Title }}</h1>
+        <p class="entry-census">
+          <span>
+            <a href="{{ .Site.Author.link }}">
+              <img src="{{ .Site.Author.image }}">
+            </a>
+          </span>
+        <span>
+          <a href="{{ .Site.Author.link }}">{{ .Site.Author.name }}</a>
+        </span>
+        <!--本篇文章信息统计-->
+        <!-- 日期 -->
+        <span class="bull">·</span>
+        {{- .Date | time.Format ":date_medium" -}}
+        <!-- 文章浏览次数 -->
+        <span class="bull">·</span>
+        <span class="post-meta-item">
+          <span class="post-meta-item-icon">
+            <i class="iconfont icon-attention"></i>
+          </span>
+          <span class="waline-pageview-count" data-path="{{ .RelPermalink }}"></span>
+          <span class="post-meta-item-text">次浏览</span>	
+        <!--本篇文章文字数统计 -->
+        <span class="bull">·</span>
+        <span class="post-time">
+          <span class="post-meta-item-icon">
+            <i class="fa fa-book"></i>
+            <span class="post-count">{{ .WordCount }}字</span>
+          </span>
+          <span class="bull">·</span>
+        </span>        
+        <!--本篇文章评论数统计 -->
+        {{ if and .Site.Params.Comment.Enable .Params.comments }}
+        <span class="post-time">
+          <span class="post-meta-item-icon">
+            <i class="fa fa-commenting"></i>
+            <span class="waline-comment-count" data-path="{{ .RelPermalink }}"></span>
+            <span class="post-count">条评论</span>
+          </span>
+          <span class="bull">·</span> 
+        </span>
+        {{ end }}
+        <!--本篇文章预计阅读时间-->			
+        <span class="post-time">
+          <span class="post-meta-item-icon">
+            <i class="fa fa-coffee"></i>
+            <span class="post-meta-item-text">预计</span>
+            <span class="post-count">{{ .ReadingTime }}分钟</span>
+          </span>
+        </span>
+    </header>
+  </div>
+  <!-- 文章内容 -->
+  <div id="content" class="site-content">
+    <div id="primary" class="content-area">
+      <main id="main" class="site-main" role="main">
+        <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+          <div class="toc"></div>
+          <!--<div class="toc-entry-content" --><!-- 套嵌目录使用（主要为了支援评论）-->
+          <div class="entry-content">
+            {{ .Content }}
+          </div>
+          <!-- .entry-content -->
+          <!--打赏图标-->
+          <div class="single-reward">
+            <div class="reward-open">赏
+              <div class="reward-main">
+                <ul class="reward-row">
+                  <li class="alipay-code"><img src="{{ .Site.Params.donate.type.alipay }}"></li>
+                  <li class="wechat-code"><img src="{{ .Site.Params.donate.type.wechat }}"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+          <footer class="post-footer">
+            <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+            <div class="post-share">
+              <div class="social-share sharehidden share-component"></div>
+              <i class="iconfont show-share icon-forward"></i>
+            </div>
+          </footer><!-- .entry-footer -->
+        </article>
+
+  <!--对于每一篇发布文章添加标签统计展示-->
+  <script type="text/javascript" charset="utf-8" src="<%- url_for('/js/tagcloud.js') %>"></script>
+  <script type="text/javascript" charset="utf-8" src="<%- url_for('/js/tagcanvas.js') %>"></script>
+    <div class="post-tags">
+      <div class="tag-cloud">
+        <div class="tag-cloud-title">标签云</div>
+        <div class="tag-cloud-tags">
+          {{ partial "widgets/tag/tag-cloud2.html" (dict "ctx" . "fontSpan" (slice 5 10)) }}
+        </div>
+      </div>
+
+    </div>
+  <!--对于每一篇发布文章添加标签统计展示-->
+        <!-- #post-## -->
+        <div class="toc" style="background: none;"></div>
+        <section class="post-squares nextprev">
+          {{ if .Prev }}
+            {{ if .Next }}
+              <div class="post-nepre half previous">
+            {{ else }}
+              <div class="post-nepre full previous">
+            {{ end }}
+              <a href="{{ .Prev.Permalink }}" rel="prev">
+                <div class="background">
+                  <img class="lazyload" src="{{ .Site.Params.lazyloadImg }}" 
+                  data-src="
+                  {{- with .Params.image -}}
+                    {{- . -}}
+                  {{- else -}}
+                    {{- .Site.Params.postpage.defaultPostImg -}}
+                  {{- end }}" 
+                  style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)">
+                </div>
+                <span class="label">
+                Previous Post</span>
+                <div class="info">
+                  <h3>{{ .Prev.Title }}</h3>
+                  <hr>
+                </div>
+              </a>
+            </div>
+          {{ end }}
+          {{ if .Next }}
+            {{ if .Prev }}
+              <div class="post-nepre half next">
+            {{ else }}
+              <div class="post-nepre full next">
+            {{ end }}
+              <a href="{{ .Next.Permalink }}" rel="next">
+                <div class="background">
+                  <img class="lazyload" src="{{ .Site.Params.lazyloadImg }}" 
+                  data-src="
+                  {{- with .Params.image -}}
+                    {{- . -}}
+                  {{- else -}}
+                    {{- .Site.Params.postpage.defaultPostImg -}}
+                  {{- end }}" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)">
+                </div>
+                <span class="label">
+                  Next Post
+                </span>
+                <div class="info">
+                  <h3>{{ .Next.Title }}</h3>
+                  <hr>
+                </div>
+              </a>
+            </div>
+          {{ end }}
+        </section>
+
+        <!--文章下的评论模块-->
+        {{ partial "comment.html" . }}
+        <!-- 作者头像和简介 -->
+        <section class="author-profile">
+          <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+            <a href="{{ .Site.Author.link }}" class="profile gravatar"><img src="{{ .Site.Author.image }}" itemprop="image" alt="{{ .Site.Author.name }}" height="70" width="70"></a>
+            <div class="meta">
+              <span class="title">Author</span>
+              <h3 itemprop="name">
+              <a href="{{ .Site.Author.link }}" itemprop="url" rel="author">{{ .Site.Author.name }}</a>
+              </h3>
+            </div>
+          </div>
+          <hr>
+          <p><i class="iconfont icon-write"></i>{{ .Site.Author.description }}</p>
+        </section>
+      </main><!-- #main -->
+    </div><!-- #primary -->
+  </div>
+  <!-- 支持MathJax格式数学公式展示 -->
+  {{ if .Site.Params.mathjax.enable }} 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+  {{ end }}
+{{ end }}

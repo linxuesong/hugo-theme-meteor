@@ -1,0 +1,53 @@
+{{ define "main" }}
+<!-- 所有分类展示模板  url:/categories -->
+        <div class="blank" style="padding-top: 75px;"></div>
+        <div class="pattern-center ">
+          <div class="pattern-attachment-img">
+            {{ if .Params.headertop.bgurls }}
+                <img src="{{ .Params.image }}" src="{{ .Site.Params.lazyloadImg }}" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+            {{ else }}
+                <img src="{{ index .Site.Params.headertop.bgurls 0 }}" src="{{ .Site.Params.lazyloadImg }}" data-src="<%= page.photos %>" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+            {{ end }}
+            <header class="pattern-header ">
+              <h1 class="entry-title">文章分类
+                
+              </h1>
+            </header>
+          </div>
+        </div>
+        <div id="content" class="site-content">
+          <div id="main">
+            <div id="main-part">
+              <!--文章分类-->
+              <!-- 分类云，包含所有分类及其文章数量展示 -->
+              <div id="category-cloud" class="container chip-container">
+                <div class="card">
+                    <div class="card-content">
+                      <header class="page-header">
+                        <h1 class="cat-title">分类云</h1>
+                        <span class="cat-des">
+                          <p>Tags: {{ len .Site.Taxonomies.categories }}</p>
+                        </span>
+                      </header>
+                        <div class="tag-chips">
+                             {{ partial "widgets/categories/category-cloud.html" . }}
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              <!--文章雷达图--> 
+              分类雷达图待实现
+              <!-- <%- partial('_widget/category-radar') %> -->
+              <section class="author-profile">
+                <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                    <a href="/about/" class="profile gravatar"><img src="{{ .Site.Author.image }}" itemprop="image" alt="hojun" height="70" width="70"></a>
+                    <div class="meta">
+                    <span class="title">Author</span>
+                    <h3 itemprop="name"><a href="{{.Site.BaseURL }}" itemprop="url" rel="author">{{.Site.Author.name}}</a></h3>
+                    </div>
+                </div>
+                <p id="showStr">随机打开一个，也许有你感兴趣的呦!</p>
+              </section>
+           </div>
+        </div>
+{{ end }}

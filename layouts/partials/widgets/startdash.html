@@ -1,0 +1,22 @@
+<!--首页中快速开始的展示项-->
+<div class="top-feature-row">
+    <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
+    <i class="fa fa-anchor" aria-hidden="true">
+    </i>
+    START:DASH!!</h1>
+   {{ range .Site.Params.startdash }}
+    <div class="top-feature-v2">
+      <div class="the-feature square from_left_and_right">
+        <a href="{{.url}}" target="_blank">
+          <div class="img">
+            <img src="{{.img}}">
+          </div>
+          <div class="info">
+            <h3>{{.title}}</h3>
+            <p>{{.desc}}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    {{ end }}
+  </div>

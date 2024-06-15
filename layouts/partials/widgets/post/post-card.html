@@ -1,0 +1,152 @@
+<!-- 文章卡片用于首页展示最新文章样式 -->
+<!-- 偶数页标题居左 奇数页标题居右-->
+<!-- hugo 数学运算参考 https://gohugo.io/functions/math/ -->
+<article {{if eq (mod .index 2) 0 }} class="post post-list-thumb post-list-thumb-left" {{ else }} class="post post-list-thumb" {{ end }} itemscope="" itemtype="https://schema.org/BlogPosting">
+  <!-- 主题挂件begin -->
+  {{ if eq (mod .index 2) 0 }}
+      <div class="caishendengsd" style="height:0px">        
+        <div class="caishenxiancustom" style="left:70%">
+          <img class="caishenpicsd" src="/imgs/theme/pendant/christmas-img/2.png">
+        </div>
+      </div>
+      <div class="caishendeng">        
+        <div class="caishenxiancustom" style="left:70%">
+          <img class="caishenpic fudai" src="/imgs/theme/pendant/spring-img/3.png">
+        </div>            
+      </div>
+  {{ else }}
+        <div class="caishendengsd" style="height:0px">        
+          <div class="caishenxiansd" style="left:30%">
+            <img class="caishenpicsd" src="/imgs/theme/pendant/christmas-img/2.png">
+          </div>
+        </div>
+        <div class="caishendeng">        
+          <div class="caishenxiancustom" style="left:30%">
+            <img class="caishenpic fudai" src="/imgs/theme/pendant/spring-img/3.png">
+          </div>            
+        </div>
+  {{ end }}
+  <!-- 主题挂件end -->
+  {{ with .page }}
+    <!-- 首页文章展示图片 -->
+    <div class="post-thumb">
+      <!-- Permalink文章链接  -->
+      <a href="{{ .Permalink }}"> 
+        <img class="lazyload" onerror="imgError(this,3)" src="{{ .Site.Params.postpage.lazyloadImg}}"
+        data-src="
+          {{- with .Params.image -}}
+            {{- . -}}
+          {{- else -}}
+            {{- .Site.Params.postpage.defaultPostImg -}}
+          {{- end -}}
+          ">
+      </a>
+    </div>
+    <div class="post-content-wrap">
+      <div class="post-content">
+        <div class="post-date">
+          <i class="iconfont icon-time"></i>
+          {{- .Date | time.Format ":date_medium" -}}
+          {{- .Date | time.Format ":time_short" -}}  
+        </div>
+        <a href="{{ .Permalink }}" class="post-title">
+          <h3>{{ .Title }}</h3>
+        </a>
+
+    
+        <!--文章阅读时间、人数、字数信息-->
+        <div class="post-meta">
+          <!--字数统计 -->
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-book"></i>            
+              <span class="post-meta-item-text"></span>
+              <span class="post-count">{{ .WordCount }}字</span>
+            </span>
+          </span>
+          <span class="bull">·</span>
+          <!--本篇文章预计阅读时间-->	 	
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-coffee"></i>
+              <span class="post-meta-item-text"></span>
+              <span class="post-count">{{ .ReadingTime }}分钟</span>
+            </span>
+          </span>
+          <!--本篇文章浏览量-->
+          <span class="bull">·</span>
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-eye"></i>
+              <span class="waline-pageview-count" data-path="{{ .RelPermalink }}"></span>
+              <span class="post-meta-item-text">阅读</span>
+            </span>
+          </span>
+          <!--本篇文章评论量-->
+          {{ if and .Site.Params.Comment.Enable .Params.comments }}
+          <span class="bull">·</span>
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-commenting"></i>
+              <span class="post-meta-item-text"></span>
+              <span class="waline-comment-count" data-path="{{ .RelPermalink }}"></span>
+              <span class="post-meta-item-text">条评论</span>
+            </span>
+          </span>
+          <script type="module">
+            import { commentCount } from 'https://unpkg.com/@waline/client@v2/dist/comment.mjs';
+          
+            commentCount({
+              serverURL: '{{ .Site.Params.comment.waline.serverURL }}',
+              path: "{{ .RelPermalink }}",
+          
+              // 可选的，用于自定选择器，默认为 `'.waline-pageview-count'`
+              // selector: '.waline-pageview-count',
+            });
+          </script>
+          {{ end }}
+        <div class="post-meta"></div>
+
+        <!-- 主页文章卡片上的分类和标签 -->
+        <div class="post-meta">
+          <!-- 遍历文章参数 tags切片 -->
+          <span>
+            <i class="fa fa-tags"></i>
+            {{ with .Params.tags }}
+              {{ range $tag := . }}
+                <a href="tags/{{ $tag }}">
+                  {{ $tag }}
+                  <em>·</em>
+                </a>
+              {{ end }}
+            {{ else }}
+              无标签
+            {{ end }}
+          </span>
+          <!-- 遍历文章参数categories切片 -->
+          <span>
+            <i class="iconfont icon-file"></i>
+            {{ with .Params.categories }}
+              {{ range $category := . }}
+                <a href="categories/{{ $category }}">
+                  {{ $category }}
+                </a>
+              {{ end }}
+            {{ else }}
+                  未分类
+            {{ end }}
+          </span>
+        </div>
+        <!--主页文章卡片上的简介-->
+        <div class="float-content">
+          <p>{{ .Description }}</p>
+          <div class="post-bottom">
+            <a href="{{ .Permalink }}" class="button-normal">
+              <i class="iconfont icon-caidan"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{ end }}
+</article>

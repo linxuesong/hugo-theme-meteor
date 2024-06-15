@@ -1,0 +1,49 @@
+{{ define "main" }}
+  <!-- 标签总览 -->
+<div class="blank" style="padding-top: 75px;">
+</div>
+<div class="pattern-center ">
+  <div class="pattern-attachment-img">
+    {{ if .Params.headertop.bgurls }}
+    <img src="{{ .Params.image }}" src="{{ .Site.Params.lazyloadImg }}" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+    {{ else }}
+    <img src="{{ index .Site.Params.headertop.bgurls 0 }}" src="{{ .Site.Params.lazyloadImg }}" data-src="<%= page.photos %>" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+    {{ end }}
+    <header class="pattern-header ">
+      <h1 class="entry-title">标签归档</h1>
+    </header>
+  </div>
+</div>
+<div id="content" class="site-content">
+  <div id="main">
+    <header class="page-header">
+      <h1 class="cat-title">标签云</h1>
+      <span class="cat-des">
+        <p>Tags: {{ len .Site.Taxonomies.categories }}</p>
+      </span>
+    </header>
+    <div id="main-part">
+        <div class="tag-cloud">
+          <div class="tag-cloud-title"></div>
+          <div class="tag-cloud-tags">
+            {{ partial "widgets/tag/tag-cloud2.html" (dict "ctx" . "fontSpan" (slice 15 30)) }}
+          </div>
+        </div>
+        
+        <section class="author-profile">
+          <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            <a href="/about/" class="profile gravatar"><img src="{{ .Site.Author.image}}" itemprop="image" alt="hojun" height="70" width="70"></a>
+            <div class="meta">
+              <span class="title">Author</span>
+              <h3 itemprop="name">
+              <a href="{{ .Site.BaseURL }}" itemprop="url" rel="author">{{ .Site.Author.name }}</a>
+              </h3>
+            </div>
+          </div>
+		  <p id="showStr">翻个牌子，瞧瞧我呗!<br>
+        </section>
+      
+      </div>   
+  </div>
+</div>     
+{{ end }}

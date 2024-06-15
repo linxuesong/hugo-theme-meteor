@@ -1,0 +1,235 @@
+<footer id="colophon" class="site-footer" role="contentinfo">
+    <div class="site-info">
+      <div class="footertext">
+        <div class="img-preload">
+          <img src="/imgs/other/post-loading.svg">
+          <img src="/imgs/other/disqus-preloader.svg">
+        </div>
+        <p style="color: #666666;">&copy 2018</p>
+      </div>
+      <!-- 网站数据统计 -->
+          <div class="footer-device">
+            <p style="font-family: 'Ubuntu', sans-serif;">
+              <span style="color: #ff9999;padding-left: 20px;">
+                  <!-- 网站运行时间统计 -->
+                  <i class="fa fa-clock-o" aria-hidden="true"></i>
+                  <span id="time" align="center">载入时间中...</span>
+                  <script>
+                    var now = new Date(); 
+                    function createtime() { 
+                          var grt= new Date("{{ .Site.Params.footer.siteBuildingTime }}");//在此处修改你的建站时间
+                          now.setTime(now.getTime()+250); 
+                          days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+                          hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+                          if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+                          mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+                          seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+                          snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+                          document.getElementById("time").innerHTML = "小破站在各种灾难中生存了 "+ dnum +" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒";      
+                      } 
+                      setInterval("createtime()",250);
+                  </script>
+              </span> 
+            </p>
+          </div>
+          <div class="footer-device">
+            <p style="font-family: 'Ubuntu', sans-serif;">
+              <span style="color: #b9b9b9;padding-left: 20px;">
+                博客数据&nbsp;
+              </span>
+              <!-- 全站文章数 -->
+                {{ $AllPostCnts := 0 }}
+                {{ $AllPostCntsDone := false }}
+                {{if ne $AllPostCntsDone }}
+                  {{ range $category_name, $category := .Site.Taxonomies.categories }}
+                    {{ $AllPostCnts = add $AllPostCnts $category.Count }}
+                  {{ end }}    
+                {{ end }}
+              <span>
+                <i class="fa fa-book"  aria-hidden="true" style="color: #ff9999;display:inline-block"></i>
+                文章篇数:<span class="post-count" style="color:#ff9999;">{{ $AllPostCnts }}</span>篇 &nbsp;&nbsp;    
+              </span>
+
+              <!-- 全站访问次数 同一用户点击多次也算 -->
+              <span>
+                  <i class="fa fa-line-chart" aria-hidden="true" style="color: #ff9999;display:inline-block"></i> 
+                    访问次数:
+                    <span style="color:#ff9999;" class="waline-pageview-count" data-path="/" />
+                    次
+              </span>
+
+              <!-- 访问人数 同一用户点击多次也算一个-->
+              <span style="padding-left: 20px;">
+                <i class="fa fa-user" aria-hidden="true" style="color: #ff9999;display:inline-block"></i>
+                <span id="busuanzi_container_site_uv">
+                  访客人数： 
+                    <span id="busuanzi_value_site_uv" style="color:#ff9999;"></span>人 <!--使用busuanzi统计-->
+                  </span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <!-- 这个waline必须首页引入，首页文章卡片和页表网站浏览量统计信息才能正常显示出来 -->
+          <div style="display: none;" id="waline"></div>
+
+        <!-- .siteInfo -->
+        {{ if .Site.Params.footer.siteInfo}}
+          <div class="footer-device">
+            <p style="font-family: 'Ubuntu', sans-serif;">
+                <span style="color: #b9b9b9;">
+                  Theme 
+                  <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a>
+                  <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i>
+                  by
+                  <!-- <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">
+                  Mashiro
+                  </a>
+                  & -->
+                  <a href="https://www.snowday.cn" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">
+                  lean
+                  </a>
+                  , Powered by Hugo, Hosted by Tencent Cloud</a>
+                </span>
+            </p>
+          </div>
+        {{end}}
+        <!-- 网站备案号信息 -->
+        <a href="https://beian.miit.gov.cn/" target="_blank">冀ICP备2023024375号</a>
+    </div>
+  </footer>
+  
+  <!-- 指定网页去除网页底部footer的网站信息 -->
+  <!--  切换页面后需要再显示出来 -->
+  <!--
+  <script>
+      var url = document.URL.toString();
+      var reg = new RegExp("sourceshare");
+      var obj = document.getElementById("colophon");
+      if(url.match(reg)){
+          obj.style.display="none";
+      }else {
+          obj.style.display="block";
+      }
+  </script>
+  -->
+
+
+
+  <!--1.主站-->
+  <script type="text/javascript" src="/js/lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+  <script type="text/javascript" src="/js/zoom.min.js"></script>
+  <script type="text/javascript" src="/js/sakura-app.js"></script>
+  <script src="/js/search.js"></script>
+  
+
+    <!--2.界面画板娘-->
+    <!-- github仓库链接:https://github.com/stevenjoezhang/live2d-widget-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> 
+    <script src="https://cdn.jsdelivr.net/gh/linxuesong/cdn/live2d_qianduan/live2d-widget-master/autoload.js"></script>
+    <!--3.樱花飘落背景-->
+      <!--
+      <script src="https://cdn.jsdelivr.net/gh/wallleap/cdn/js/sakura.js"></script>  
+      -->
+    <!--4.鼠标移动特效（暂时关闭）-->
+      <!--
+      <script src="https://cdn.jsdelivr.net/gh/wallleap/cdn/js/xuehua.js"></script>
+      -->
+    <!--5.图片预加载-->
+    <script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+    <!--6.鼠标点击爆炸特效-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/linxuesong/cdn/js/鼠标特效/鼠标点击爆炸烟花特效JS/meme.js"></script>
+    <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"></canvas>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/linxuesong/cdn/js/鼠标特效/鼠标点击爆炸烟花特效JS/anime.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/linxuesong/cdn/js/鼠标特效/鼠标点击爆炸烟花特效JS/fireworks.js"></script> 
+    <!--7.明月浩空音乐播放器插件   下面是盗版(歌单比较全)    还有  正版体验版(只有一个歌单加广告)  也可以用注册版(有后台查看系统)-->
+      <!-- {{ if .Site.Params.myhk.enable }}
+        <script src="https://myhkw.cn/player/js/player.js" id="myhk" key="160897544983" m="1"></script>
+      {{ end }} -->
+
+  <!-- 9.Botui搭建js聊天机器人 -->
+  <script src="/js/botui.js"></script>
+  <!-- 10.不蒜子 网页计数器 -->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  
+  <!--11.与首页的视频播放相关-->
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    // 存储了视频相关变量
+    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+      var Poi = {"pjax":"{{ .Site.Params.pjax }}","movies":{"url": {{ .Site.Params.footer.movies.parentPath }},"name":"{{.Site.Params.footer.movies.fileName}}","live":"close"},"windowheight":"fixed","ajaxurl":"","order":"asc","formpostion":"bottom"};
+    } else {
+      var Poi = {"pjax":"{{ .Site.Params.pjax }}","movies":{"url": {{ .Site.Params.footer.movies.parentPath }},"name":"{{.Site.Params.footer.movies.fileName}}","live":"open"},"windowheight":"auto","ajaxurl":"","order":"asc","formpostion":"bottom"};
+    }
+    /* ]]> */
+    </script>
+  
+    <!--12.测试的搜索引擎-->
+      <!-- algoliajs 5个 -->
+        <!-- 注意这里需要浏览器开启es6模式 -->
+     <script  src="/js/search/algolia/autocomplete.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/algoliasearch/4.16.0/algoliasearch-lite.umd.js" integrity="sha512-0GlicHH3hOwOxa2fHjIdkv0rKFPuPZE+qGSI2HxStLemOkPAJbNRAfw6Rb9WXGp6oYzOv9ZHGZlgHFxjJ7b6RQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/instantsearch.js/4.53.0/instantsearch.production.min.js" integrity="sha512-DvD+hDgJDdTGGsmfrbAQ96+ny9elfbO5vHi5ODzvFvHLmJEjyERWRGitt9s0InNDqiAXOxqnO7tWdStdyL9dOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     <script  src="/js/search/algolia/search.js"></script>
+      <!-- fusejs 5个 -->
+    <script src="/js/search/fusejsSearch.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js" integrity="sha512-Nqw1tH3mpavka9cQCc5zWWEZNfIPdOYyQFjlV1NvflEtQ0/XI6ZQ+H/D3YgJdqSUJlMLAPRj/oXlaHCFbFCjoQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+<!--13.toc 目录容器-->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>  不确定作用--><
+<script>
+  $(document).ready(function() {
+    if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+      if ($(".pattern-center").length > 0) { //有图的情况
+        tocbot.init({
+            // Where to render the table of contents.
+            tocSelector: '.toc', // 放置目录的容器
+            // Where to grab the headings to build the table of contents.
+            contentSelector: '.entry-content', // 正文内容所在
+            // Which headings to grab inside of the contentSelector element.
+            scrollSmooth: true,
+            headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+            headingsOffset: -400,
+            scrollSmoothOffset: -85
+        });
+      } else {
+        tocbot.init({
+            // Where to render the table of contents.
+            tocSelector: '.toc', // 放置目录的容器
+            // Where to grab the headings to build the table of contents.
+            contentSelector: '.entry-content', // 正文内容所在
+            // Which headings to grab inside of the contentSelector element.
+            scrollSmooth: true,
+            headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+            headingsOffset: -85,
+            scrollSmoothOffset: -85
+        });
+      }
+      var offsetTop = $('.toc').offset().top - 95;
+      window.onscroll = function() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if (scrollTop >= offsetTop) {
+          $('.toc').addClass('toc-fixed');
+        } else {
+          $('.toc').removeClass('toc-fixed');
+        }
+      }
+    }
+  });
+  </script>
+  
+  <!-- 14.daovoice站内聊天工具 -->
+{{if .Site.Params.daovoice.enable}}
+    <script>
+    (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/{{ .Site.Params.daovoice.appid}}.js","daovoice");
+      daovoice('init', {
+        app_id: "{{ .Site.Params.daovoice.appid }}"
+      });
+      daovoice('update');
+    </script>
+{{ end }}
+  

@@ -1,0 +1,105 @@
+{{ define "main" }}
+<div class="pattern-center-blank">
+</div>
+<div class="pattern-center ">
+    <div class="pattern-attachment-img">
+        <img src="https://cdn.jsdelivr.net/gh/drew233/cdn/20200303155335.webp" data-src="<%= page.photos %>"
+            class="lazyload" onerror="imgError(this,3)"
+            style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+    </div>
+    <style type="text/css">
+        #contentss {
+            position: relative;
+            width: 800px;
+            height: 900px;
+            max-height: 1200px;
+            text-align: center;
+            border: 0;
+            color: rgba(0, 0, 0, .87);
+            background: rgba(255, 255, 255, .8);
+            background-size: cover;
+            margin: 0 auto;
+        }
+    </style>
+  <header class="pattern-header ">
+          <h1 class="cat-title">
+      日历</h1>
+      <span class="cat-des">
+        <p>
+        Calendar</p>
+      </span>
+  </header>
+</div>
+
+
+<div id="content" class="site-content">
+  <div id="main">
+    <div id="main-part">
+      <article class="art">
+        <div class="art-main">
+          <div class="art-content">
+            <div id="archives">
+		<!--文章贡献日历Begin  仿github文章发布日历 待研究补全-->
+		<!-- <div id="calendar">
+         		     <% if (theme.postCalendar) { %>
+         		       <%- partial('_widget/post-calendar') %>
+          		    <% } %>
+       	</div> -->
+    <!--文章贡献日历End-->
+              <p style="text-align:right;">
+                [<span id="al_expand_collapse" style="cursor: s-resize;">
+                全部展开/收缩</span>
+              ]</p>
+              <!-- 存放上篇文章的年月信息，lastyear 格式2020  lastmonth格式202012-->
+                <!--hugo中date.Year返回int date.Month返回time.Month类型-->
+              {{ $lastYear := ""}}
+              {{ $lastMonth := ""}}
+              {{ range $post := .Site.RegularPages.ByDate.Reverse }}
+                {{ $currentYear := cast.ToString $post.Date.Year}}
+                <!--$post.Date.Format 01" 表示日期转化月份为01-->
+                {{ $currentMonth := add (cast.ToString $post.Date.Year) ($post.Date.Format "01")  }} 
+                <!-- 表示是否第一次出现该年份的文章， 第一次出现需要加上h3年份标题-->
+                {{ if not (eq $lastYear $currentYear) }}
+                  {{ $lastYear = $currentYear }}
+                  <h3 class="al_year">{{ $post.Date.Year }}年</h3>
+                {{ end}}
+                <!-- 表示是否第一次出现该年份该月份的文章， 第一次出现需要加上ul月份列表-->
+                {{ if not (eq $lastMonth $currentMonth)}}
+                  {{ $lastMonth = $currentMonth }}
+                  <ul class="al_mon_list">
+                    <li class="al_li">
+                        <span class="al_mon" style="cursor: s-resize;">
+                        {{ $post.Date.Format "01" }}月(<span id="post-num">
+                        3</span>
+                        篇文章)</span>
+                        <ul class="al_post_list" style="">
+                {{ end }}
+                <!--不是第一出现无需附加标题，直接加入li文章项即可-->
+                        <li>
+                          <a href="{{ $post.Permalink }}">
+                            <span style="color:#0bf;">
+                            {{ $post.Date.Format "01"}}月{{ $post.Date.Day}}日  </span>
+                            {{ $post.Title }}
+                          </a>
+                        </li>
+                        <!-- 如果下一篇文章不属于正在遍历的当年当月表示该部分遍历完加上结束符号 -->
+                        {{ with $post.Prev }}
+                            {{if (not (eq $currentMonth  (add (cast.ToString $post.Prev.Date.Year)  ($post.Prev.Date.Format "01")))) }}
+                                      </ul>
+                                    </li>
+                                  </ul>
+                            {{ end }}
+                        {{ else }}
+                                </ul>
+                              </li>
+                            </ul>
+                        {{end}}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+{{end}}

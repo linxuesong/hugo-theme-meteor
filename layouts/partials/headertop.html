@@ -1,0 +1,60 @@
+<!--公共头部-->
+<div class="headertop {{ .Site.Params.headertop.bgimgclass }}" style="height: auto;">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="{{ .Site.Author.link }}">
+          <img src="{{ .Site.Author.image }}">
+        </a>
+      </div>
+      <div class="header-info">
+       <p>"{{ .Site.Author.description }}"</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="/imgs/other/next-b.svg">
+          </li>
+          {{if .Site.Params.social }}
+            {{ range .Site.Params.social}}
+                {{if .qrcode }}
+                  <li class="wechat">
+                    <a href="{{ .url }}" title="{{ .name }}">
+                    <img src="{{ .img }}">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="{{ .qrcode }}">
+                  </div>
+                  </li>
+                {{ else }}
+                  <li>
+                    <a href="{{ .url }}" target="_blank" class="social-github" title="{{ .name }}">
+                      <img src="{{ .img }}">
+                    </a>                    
+                  </li>
+                {{ end }}
+            {{end}}
+          {{ end }}
+          <li id="bg-next">
+            <img src="/imgs/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+
+  <!-- 网站主页的视频  -->
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive"></div>
+    <div id="video-add"></div>
+    <div class="video-stu"></div>
+  </div>
+  <!-- 首页下拉展示文章按钮 -->
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+    </span>
+  </div>
+</div>

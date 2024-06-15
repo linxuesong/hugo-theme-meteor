@@ -1,0 +1,30 @@
+<!-- 标签字体大小变化范围px: [smallestFontSize,largestFontSize] -->
+<!-- 修改范围即可调整标签云 数量决定大小的对比度 -->
+{{ $largestFontSize := index .fontSpan 1 }} 
+{{ $smallestFontSize := index .fontSpan 0 }}
+
+{{- $type := "tags" }}
+    <!-- taxonomyTerm2PagesMap为map,tagname~weightedpages -->
+    <!-- 文章数量(min,max) 映射到 字体大小(smallestFontSize,largestFontSize) -->
+    <!-- weight 当前tag数量相对 最小文章数量 差值-->
+    {{- $taxonomyTerm2PagesMap := .ctx.Site.Taxonomies.tags }}
+    {{if eq .ctx.Kind "term"}}
+        {{- $taxonomyTerm2PagesMap := .ctx.Data.Terms.Alphabetical }}
+    {{end}}
+    {{- range $tagName, $pages := $taxonomyTerm2PagesMap }}
+        {{- $count := len $pages }}
+        {{- with $.ctx.Site.GetPage (printf "/%s/%s" $type $tagName) }}
+            {{ $fontSpread := sub $largestFontSize $smallestFontSize }}
+            {{ $max := add (len (index $.ctx.Site.Taxonomies.tags.ByCount 0).Pages) 1 }}
+            {{ $min := len (index $.ctx.Site.Taxonomies.tags.ByCount.Reverse 0).Pages }}
+            {{ $countSpread := sub $max $min }}
+            {{ $weigth := div (sub $count $min) (mul $countSpread 1.0) }}
+            {{ $currentFontSize := (add $smallestFontSize (mul $fontSpread $weigth)) }}
+            <a href="{{ .Permalink }}" style="font-size: {{ $currentFontSize }}px; font-weight: {{ mul $currentFontSize 200 }}; color: #f66">
+                {{ $tagName }}
+                <sup><strong><sup>{{ $count }}</sup></strong></sup>
+            </a>
+        {{- end }}
+    {{- end }}
+
+

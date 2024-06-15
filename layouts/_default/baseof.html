@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <!-- 引入head.html -->
+  {{- partial "head.html" . -}}
+  <body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+    <div class="scrollbar" id="bar"></div>
+    <a href="#" class="cd-top faa-float animated"></a>
+    <section id="main-container">
+    <div id="page" class="site wrapper">
+        <!-- 包含主页的导航栏、搜索栏 -->
+        {{- partialCached "header.html" . -}}
+        <!-- block表示预定义模版名，并将对应define实现内容引入  对比partial只根据文件名引入的partial下的模板-->
+        {{- block "main" . }}{{- end }}
+    </div>
+
+      <!-- 页脚 -->
+      {{- partial "footer.html" . -}}
+  
+      <div class="openNav no-select" style="height: 50px;">
+        <div class="iconflat no-select" style="width: 50px; height: 50px;">
+          <div class="icon"></div>
+        </div>
+        <div class="site-branding search-form-submit">
+          <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+        </div>
+      </div>
+    </section>
+    {{- partialCached "mobileheader.html" . -}}
+        <!-- 9.aplayer第三方音乐播放器插件 -->
+        {{ if .Site.Params.aplayer.enable }}
+        {{- partialCached "plugins/aplayer.html" . -}}
+    {{ end }}
+      
+  <!-- 8.评论相关waline -->
+  {{ if .Site.Params.Comment.Enable }}
+    <script type="module">
+      import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+      init({
+        el: '#waline',
+        serverURL: '{{ .Site.Params.comment.waline.serverURL }}',
+        reaction:   {{ .Site.Params.comment.waline.reaction }},
+        pageview:   {{ .Site.Params.comment.waline.pageView }}, // 浏览量统计
+        comment:    {{ .Site.Params.comment.waline.comment }}, // 评论数统计
+      });
+    </script>
+  {{ end }}
+
+
+      <!-- 7.主题背景换肤功能 -->
+      <!-- 主题切换按钮 -->
+      <div class="changeSkin-gear no-select">
+        <div class="keys" id="setbtn"> 
+         <span id="open-skinMenu"> 点我试试 | SCHEME TOOL  
+           <i class="iconfont icon-gear inline-block rotating"></i> 
+         </span>
+        </div>
+      </div>
+      
+      <!-- 主题切换可选背景样式  -->
+      <div class="skin-menu no-select" id="mainskin" style="position: fixed">
+        <div class="theme-controls row-container">
+         <ul class="menu-list">
+          <li id="white-bg"> <i class="fa fa-television" aria-hidden="true"></i></li>
+          <li id="sakura-bg"> <i class="iconfont icon-sakura"></i></li>
+          <li id="gribs-bg"> <i class="fa fa-slack" aria-hidden="true"></i></li>
+          <li id="KAdots-bg"> <i class="iconfont icon-dots"></i></li>
+          <li id="totem-bg"> <i class="fa fa-optin-monster" aria-hidden="true"></i></li>
+          <li id="pixiv-bg"> <i class="iconfont icon-pixiv"></i></li>
+          <li id="bing-bg"> <i class="iconfont icon-bing"></i></li>
+          <li id="dark-bg"> <i class="fa fa-moon-o" aria-hidden="true"></i></li>
+         </ul>
+        </div>
+       </div>
+       <canvas id="night-mode-cover"></canvas>
+      <!-- 8.增加红灯笼按钮-->
+      <!--圣诞模式按钮-->  
+      <script>
+          if (localStorage.getItem('themechris') === '1') {
+              document.body.classList.add('themechris');
+          }
+          else if (matchMedia('(prefers-color-scheme: themechris)').matches) {
+              document.body.classList.add('themechris');
+          }
+      </script>
+      <a onclick="switchChrisThemes()" id="switchchristmas">
+          <img class="theme-buttonchrismas" src="/imgs/theme/pendant/christmas-img/7.png" title="圣诞模式">
+      </a>
+      <!--春节模式按钮-->  
+      <script>
+          if (localStorage.getItem('themespring') === '1') {
+              document.body.classList.add('themespring');
+          }
+          else if (matchMedia('(prefers-color-scheme: themespring)').matches) {
+              document.body.classList.add('themespring');
+          }
+      </script>
+      <div onclick="switchSpringThemes()" id="switchspring">
+          <img class="theme-button" src="/imgs/theme/pendant/spring-img/3.png" title="春节模式">
+      </div>
+    
+      <!--春节主题的大红灯笼-->
+          <div class="denglong">
+          <div class="deng-box">
+              <div class="deng">
+                  <div class="xian"></div>
+                  <div class="deng-a">
+                      <div class="deng-b"><div class="deng-t">喜迎</div></div>
+                  </div>
+                  <div class="shui shui-a"><div class="shui-c"></div><div class="shui-b"></div></div>
+              </div>
+          </div>
+          <div class="deng-box1">
+              <div class="deng">
+                  <div class="xian"></div>
+                  <div class="deng-a">
+                      <div class="deng-b"><div class="deng-t">元旦</div></div>
+                  </div>
+                  <div class="shui shui-a"><div class="shui-c"></div><div class="shui-b"></div></div>
+              </div>
+          </div>
+      </div>
+      <!--春节主题大红灯笼-->
+      <!--可以在你想要展示小挂件的地方加上这个挂件，还没有完善等之后再进行吧-->
+      <div class="caishendengsd">        
+          <div class="caishenxiansd">
+              <img class="caishenpicsd" src="/imgs/theme/pendant/christmas-img/2.png">
+          </div>              
+      </div>
+
+      <div class="caishendeng">        
+          <div class="caishenxianleft">
+              <img class="caishenpic fudai" src="/imgs/theme/pendant/spring-img/3.png">
+          </div>            
+      </div>
+<script>
+      // 中国节日按钮切换
+      function switchSpringThemes() {
+          var body = document.body;
+          if(body.classList.contains('themechris')){
+              document.body.classList.remove('themechris');
+              localStorage.setItem('themechris','0');
+              document.body.classList.add('themespring');
+              localStorage.setItem('themespring','1');
+              return;
+          }
+          if(body.classList.contains('themespring')){
+          document.body.classList.remove('themespring');
+          localStorage.setItem('themespring','0');
+          return;
+          } else {
+          document.body.classList.add('themespring');
+          localStorage.setItem('themespring','1');
+          
+          return;
+          }
+      };
+  
+      // 圣诞节按钮切换
+      function switchChrisThemes() {
+          var body = document.body;
+          if(body.classList.contains('themespring')){
+              document.body.classList.remove('themespring');
+              localStorage.setItem('themespring','0');
+              document.body.classList.add('themechris');
+              localStorage.setItem('themechris','1');
+              return;
+          }
+          if(body.classList.contains('themechris')){
+          document.body.classList.remove('themechris');
+          localStorage.setItem('themechris','0');
+          return;
+          } else {
+          document.body.classList.add('themechris');
+          localStorage.setItem('themechris','1');
+          return;
+          }
+      };
+      </script>
+  </body>
+  </html>

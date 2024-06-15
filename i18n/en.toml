@@ -1,0 +1,9 @@
+# String in search搜索提示
+[search]
+	hint= 'Type something...'
+    posts= 'Posts'
+    pages= 'Pages'
+    categories= 'Categories'
+    tags= 'Tags'
+    untitled= '(Untitled)'
+
